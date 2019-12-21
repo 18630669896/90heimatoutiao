@@ -49,9 +49,16 @@ export default {
   },
   methods: {
     submitForm () {
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         if (isOK) {
-          console.log('验证通过，请调用接口')
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            window.localStorage.setItem('user-token', result.data.data.token)
+          })
+          // console.log('验证通过，请调用接口')
         }
       })
     }
