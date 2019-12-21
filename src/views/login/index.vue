@@ -57,8 +57,14 @@ export default {
             data: this.loginForm
           }).then(result => {
             window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/index') // 跳转到首页
+            // console.log('验证通过，请调用接口')
+          }).catch(() => {
+            this.$message({
+              message: '手机号或者验证码不正确',
+              type: 'warning'
+            })
           })
-          // console.log('验证通过，请调用接口')
         }
       })
     }
