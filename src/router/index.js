@@ -2,11 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login'
 import index from '../views/home'
-import elementui from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css' // 引入样式
 
 Vue.use(VueRouter)
-Vue.use(elementui)
 
 const routes = [
   {
