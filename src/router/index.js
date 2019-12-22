@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login'
 import index from '../views/home'
+import main from '../views/home/home.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,11 @@ const routes = [
     component: Login
   }, {
     path: '/index',
-    component: index
+    component: index,
+    children: [{
+      path: '',
+      component: main
+    }]
   }
   // {
   //   path: '/about',
