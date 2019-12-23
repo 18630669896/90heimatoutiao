@@ -21,6 +21,9 @@ const routes = [
     children: [{
       path: '',
       component: main
+    }, {
+      path: 'comment',
+      component: () => import('../views/comment')
     }]
   }
   // {
