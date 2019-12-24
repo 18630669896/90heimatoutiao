@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card v-loading="loading">
     <bread-crumb slot="header">
       <!-- 插槽内容 -->
       <template slot="title">评论管理</template>
@@ -34,6 +34,7 @@
 export default {
   data () {
     return {
+      loading: false,
       list: [], // 获取文章列表
       page: {
         total: 0,
@@ -48,6 +49,7 @@ export default {
       this.getComment()
     },
     getComment () {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: {
@@ -58,6 +60,7 @@ export default {
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count
+        this.loading = false
       })
     },
     openOrCloseStatus (row) {
@@ -74,7 +77,7 @@ export default {
           }
         }).then(result => {
           // 表示执行成功
-          debugger
+          // debugger
           this.getComment()
         })
       })
