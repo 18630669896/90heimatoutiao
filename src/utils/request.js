@@ -15,7 +15,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 axios.defaults.transformResponse = [function (data) {
-  return JSONBig.parse(data)
+  return data ? JSONBig.parse(data) : {}
 }]
 // 响应拦截
 axios.interceptors.response.use(function (response) {

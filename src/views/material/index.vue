@@ -1,5 +1,5 @@
 <template>
-    <el-card>
+    <el-card v-loading="loading">
         <bread-crumb slot="header">
             <template slot="title">素材管理</template>
         </bread-crumb>
@@ -12,7 +12,7 @@
                             <img :src="item.url" alt="">
                             <el-row type="flex" justify="space-around" style="height:40px; font-size:18px;background-color:#f4f5f6" align="middle">
                                 <i @click="collectOrCollect(item)" :style="{color:item. is_collected?'red':'#000'}" class="el-icon-star-on"></i>
-                                <i class="el-icon-delete"></i>
+                                <i @click="delImg(item.id)" class="el-icon-delete"></i>
                             </el-row>
                         </el-card>
                     </div>
@@ -45,6 +45,7 @@
 export default {
   data () {
     return {
+      loading: false,
       activeName: 'all', // 当前选中的标签
       list: [], // 用于接收图片数据
       page: {
@@ -56,6 +57,18 @@ export default {
     }
   },
   methods: {
+    // 删除图片素材
+    delImg (id) {
+      this.$confirm('您确定要删除图片素材吗？').then(() => {
+        this.$axios({
+          url: `/user/images/${id}`,
+          method: 'delete'
+        }).then(result => {
+          // this.$message(result.message)
+          this.getMaterial()
+        })
+      })
+    },
     // 收藏或者取消收藏
     collectOrCollect (item) {
       this.$axios({
@@ -79,6 +92,7 @@ export default {
       this.getMaterial()
     },
     getMaterial () {
+      this.loading = true
       this.$axios({
         url: '/user/images',
         params: {
@@ -89,6 +103,7 @@ export default {
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count
+        this.loading = false
       })
     }
   },
