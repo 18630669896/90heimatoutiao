@@ -3,6 +3,11 @@
         <bread-crumb slot="header">
             <template slot="title">素材管理</template>
         </bread-crumb>
+        <el-row type="flex" justify="end">
+          <el-upload action="" :http-request="uploadImg" :show-file-list="false">
+            <el-button type="primary">上传图片</el-button>
+          </el-upload>
+        </el-row>
         <el-row>
             <el-tabs @tab-click="changeTab" v-model="activeName">
                 <el-tab-pane label="全部图片" name="all">
@@ -57,6 +62,20 @@ export default {
     }
   },
   methods: {
+    // 上传图片
+    uploadImg (params) {
+      this.loading = true // 弹层加载
+      let data = new FormData()
+      data.append('image', params.file)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(result => {
+        this.loading = false
+        this.getMaterial()
+      })
+    },
     // 删除图片素材
     delImg (id) {
       this.$confirm('您确定要删除图片素材吗？').then(() => {
